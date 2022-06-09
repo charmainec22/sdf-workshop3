@@ -1,11 +1,15 @@
 package vtp2022.day3.workshop;
 
+import vtp2022.day3.Repository;
+import vtp2022.day3.Session;
+
 /**
  * Hello world!
  *
  */
 public class App 
 {
+    
     private static String defaultDb = "db";
     public static void main( String[] args )
     {
@@ -16,5 +20,10 @@ public class App
                 App.defaultDb = args[0];
             }
         System.out.println( defaultDb );
+        //split to two classes
+        Repository repo = new Repository(defaultDb);
+        //class -> loop of taking in commands 
+        Session session = new Session(repo);
+        session.start();
     }
 }

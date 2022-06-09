@@ -24,14 +24,16 @@ public class Session {
         this.repository = repo;
     }
 
+    //start method
     public void start(){
         Console cons = System.console();
         boolean stop = false;
         curCart = new Cart("anon");
 
         while(!stop){
-            String input = cons.readLine(" > ");
+            String input = cons.readLine("> ");
             String[] terms = input.split(" ");
+            //terms = the first word of the string before spacing
             switch(terms[0]){
                 case CARTS:
                     System.out.println("List of shopping carts");
@@ -39,12 +41,14 @@ public class Session {
                     //TODO
                 break;
 
+                //list the number of objects in the respective user's cart
                 case LIST:
                     System.out.printf("Items in %s's shopping cart \n", curCart.getUsername());
                     printList(curCart.getContents());
                     //TODO
                 break;
 
+                //add items into the cart
                 case ADD:
                     int before = curCart.getContents().size();
                     for (int i = 1; i < terms.length; i++)
@@ -53,18 +57,22 @@ public class Session {
                     System.out.printf("Added %d item(s) to %s's cart \n", addedCount, curCart.getUsername());
                 break;
                 
+                //delete items from the cart
                 case DELETE:
                     int idx = Integer.parseInt(terms[1]);
-                    String item = curCart.delete(idx);
+                    String item = curCart.delete(idx - 1 );
                     System.out.printf("Removed %s from %s's cart", item, curCart.getUsername());
                 break;
 
                 case LOAD:
-                    //curCart = reps
+                    curCart = repository.load(curCart.getUsername());
+                    System.out.printf("Loaded %s's shopping cart. There are %s item(s) \n", curCart.getUsername(), curCart.getContents().size());
                     //TODO
                 break;
 
                 case SAVE:
+                    repository.save(curCart);
+                    System.out.println(" Done !");
                     //TODO
                 break;
 
@@ -74,10 +82,13 @@ public class Session {
 
                 case LOGIN:
                     curCart = new Cart(terms[1]);
+                    System.out.printf(" %s successfully login", terms[1]);
                 break;
 
                 case USERS:
                     //TODO repo need to have the getAllUsers method.
+                    List<String> allCarts = repository.getShoppingCart();
+                    this.printList(allCarts);
                 break;
 
                 default:
@@ -95,8 +106,9 @@ public class Session {
             return;
         }
 
+        //list the items in the cart
         for ( int i = 0; i < list.size(); i++){
-            System.out.printf("%d. %s \n", (i+1), list.get(1));
+            System.out.printf("%d. %s \n", (i+1), list.get(i));
         }
     }
 }

@@ -10,8 +10,6 @@ import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.plaf.basic.BasicComboBoxUI.ItemHandler;
-
 public class Cart {
     private List<String> contents = new LinkedList<>();
     private String username;
